@@ -1,9 +1,11 @@
 ﻿#include <iostream>
+#include <cctype>
 
 void task1();
 void task2();
 void task3();
 void task4();
+void task5();
 
 int main()
 {
@@ -14,6 +16,8 @@ int main()
     task3();
 
     task4();
+
+    task5();
 }
 
 void task1()
@@ -172,4 +176,43 @@ void task4()
         }
         std::cout << std::endl;
     }
+}
+
+void task5()
+{
+    char symbol;
+    int sum = 0;
+
+    while (true)
+    {
+        std::cout << "Enter a character ('.' to terminate): ";
+        std::cin >> symbol;
+
+        if (symbol == '.')
+        {
+            break;
+        }
+
+        if (isalpha(symbol))
+        {
+            if (islower(symbol))
+            {
+                symbol = toupper(symbol);
+            }
+            
+            std::cout << "Uppercase character: " << symbol << std::endl;
+        }
+        else if (isdigit)
+        {
+            sum += symbol - '0';
+            std::cout << "The result of the running sum: " << sum << std::endl;
+        }
+        {
+            std::cout << "This character is not processed by the program" << std::endl;
+            continue;
+        }
+
+        std::cout << "The sum of the entered numbers: " << sum << std::endl;
+    }
+
 }
