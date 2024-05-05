@@ -3,6 +3,7 @@
 void task1();
 void task2();
 void task3();
+void task4();
 
 int main()
 {
@@ -11,6 +12,8 @@ int main()
     task2();
     
     task3();
+
+    task4();
 }
 
 void task1()
@@ -76,4 +79,97 @@ void task3()
     }
 
     std::cout << "Result: " << result << std::endl;
+}
+
+void task4()
+{
+    int height = 0;
+    int width = 0;
+    
+    std::cout << "Enter the height and width of the triangle (separated by spaces)" << std::endl;
+    std::cin >> height >> width;
+
+    if (height <=0 || width <= 0)
+    {
+        std::cout << "Error number(s)";
+        return;
+    }
+
+    // A
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = (width - i); j > 0; j--)
+        {
+            std::cout << "*";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    // B
+    for (int i = 1; i <= height; i++)
+    {
+        for (int j = 1; j <= width; j++)
+        {
+            std::cout << "*";
+            if (j == i)
+            {
+                //std::cout << std::endl;
+                break;
+            }
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    // C
+    for (int i = 1; i <= height; i++)
+    {
+        for (int j = 1; j <= width; j++)
+        {
+            std::cout << "*";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    // D
+    for (int i = 1; i <= height; i++)
+    {
+        for (int k = (i - 1); k > 0; k--)
+        {
+            std::cout << " ";
+        }
+
+        for (int j = 1; j <= width; j++)
+        {
+            std::cout << "*";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    // E
+    bool bigEven = false;
+    
+    for (int i = 1; i <= height; i++)
+    {
+        bigEven = !bigEven;
+        bool even = bigEven;
+
+        for (int j = 1; j <= width; j++)
+        {
+            std::cout << even ? 1 : 0;
+            even = !even;
+            if (j == i)
+            {
+                break;
+            }
+        }
+        std::cout << std::endl;
+    }
 }
