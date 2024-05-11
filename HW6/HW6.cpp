@@ -29,10 +29,12 @@ void task1()
     std::cout << "Enter 3 numbers separated by a space (first number, step, last number)" << std::endl;
     std::cin >> num >> step >> lastNum;
 
-    while (num <= lastNum)
+    std::cout << num << std::endl;
+
+    for (int i = 1; i <= lastNum; i++)
     {
-        std::cout << num << std::endl;
         num += step;
+        std::cout << num << std::endl;
     }
 }
 
@@ -209,7 +211,6 @@ void task5()
         }
         {
             std::cout << "This character is not processed by the program" << std::endl;
-            continue;
         }
 
         std::cout << "The sum of the entered numbers: " << sum << std::endl;
