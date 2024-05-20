@@ -3,12 +3,14 @@
 void task1();
 void task2();
 void task3();
+void task4();
 
 int main()
 {
     task1();
 	task2();
 	task3();
+	task4();
 }
 
 void translateArray(int numbers[], int size)
@@ -96,4 +98,44 @@ void task3()
 	else {
 		std::cout << "The string is NOT a palindrome" << std::endl;
 	}
+}
+
+bool isVowel(char c) {
+	c = std::tolower(c); 
+	return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || c == 'y');
+}
+
+void parseStringLetters(const char str[], int& vowelsCount, int& consonantsCount) {
+	vowelsCount = 0;
+	consonantsCount = 0;
+
+	for (int i = 0; str[i] != '\0'; i++) {
+		char c = str[i];
+		if (std::isalpha(c)) { 
+			if (isVowel(c)) {
+				vowelsCount++;
+			}
+			else {
+				consonantsCount++;
+			}
+		}
+	}
+}
+
+void task4()
+{
+	const int MAX_LENGTH = 100;
+	char str[MAX_LENGTH];
+	int vowelsCount, consonantsCount;
+
+	std::cout << "Enter a string: ";
+	std::cin.getline(str, MAX_LENGTH);
+	std::cout << "\n";
+
+	parseStringLetters(str, vowelsCount, consonantsCount);
+
+	std::cout << "Number of vowels: " << vowelsCount << std::endl;
+	std::cout << "Number of consonants: " << consonantsCount << std::endl;
+
+
 }
