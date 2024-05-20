@@ -1,10 +1,12 @@
 ﻿#include <iostream>
 
 void task1();
+void task2();
 
 int main()
 {
-    task1();
+    //task1();
+	task2();
 }
 
 void translateArray(int numbers[], int size)
@@ -36,4 +38,28 @@ void task1()
 	}
 
 	translateArray(numbers, size); 
+}
+
+void toUppercase(char str[]) {
+	
+	int i = 0;
+	while (str[i] != '\0') {
+		if (str[i] >= 'a' && str[i] <= 'z') {
+			str[i] = str[i] - 'a' + 'A';
+		}
+		std::cout << str[i];
+		i++;
+	}
+}
+
+void task2()
+{
+	const int MAX_LENGTH = 100;
+	char str[MAX_LENGTH];
+
+	std::cout << "Enter a string: ";
+	std::cin.getline(str, MAX_LENGTH);
+	std::cout << "\n";
+
+	toUppercase(str);
 }
