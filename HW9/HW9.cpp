@@ -2,11 +2,13 @@
 
 void task1();
 void task2();
+void task3();
 
 int main()
 {
     task1();
 	task2();
+	task3();
 }
 
 void translateArray(int numbers[], int size)
@@ -62,4 +64,36 @@ void task2()
 	std::cout << "\n";
 
 	toUppercase(str);
+}
+
+bool isPalindrom(const char str[]) {
+	int left = 0;
+	int right = strlen(str) - 1;
+
+	while (left < right) {
+		if (str[left] != str[right]) {
+			return false;
+		}
+		left++;
+		right--;
+	}
+
+	return true;
+}
+
+void task3()
+{
+	const int MAX_LENGTH = 100;
+	char str[MAX_LENGTH];
+
+	std::cout << "Enter a string: ";
+	std::cin.getline(str, MAX_LENGTH);
+	std::cout << "\n";
+
+	if (isPalindrom(str)) {
+		std::cout << "The string is a palindrome" << std::endl;
+	}
+	else {
+		std::cout << "The string is NOT a palindrome" << std::endl;
+	}
 }
