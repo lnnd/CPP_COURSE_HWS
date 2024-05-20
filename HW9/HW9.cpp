@@ -4,6 +4,7 @@ void task1();
 void task2();
 void task3();
 void task4();
+void task5();
 
 int main()
 {
@@ -11,6 +12,7 @@ int main()
 	task2();
 	task3();
 	task4();
+	task5();
 }
 
 void translateArray(int numbers[], int size)
@@ -136,6 +138,39 @@ void task4()
 
 	std::cout << "Number of vowels: " << vowelsCount << std::endl;
 	std::cout << "Number of consonants: " << consonantsCount << std::endl;
+}
 
+bool isEqual(const char str1[], const char str2[]) {
+	int i = 0;
 
+	while (str1[i] != '\0' && str2[i] != '\0') {
+		if (str1[i] != str2[i]) {
+			return false; 
+		}
+		i++;
+	}
+
+	return str1[i] == '\0' && str2[i] == '\0';
+}
+
+void task5()
+{
+	const int MAX_LENGTH = 100;
+	char str1[MAX_LENGTH];
+	char str2[MAX_LENGTH];
+
+	// Зчитування двох рядків з консолі
+	std::cout << "Enter the first line: ";
+	std::cin.getline(str1, MAX_LENGTH);
+
+	std::cout << "Enter the second line: ";
+	std::cin.getline(str2, MAX_LENGTH);
+
+	// Порівняння рядків
+	if (isEqual(str1, str2)) {
+		std::cout << "The lines are the same" << std::endl;
+	}
+	else {
+		std::cout << "The lines are different" << std::endl;
+	}
 }
