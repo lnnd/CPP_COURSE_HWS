@@ -3,11 +3,13 @@
 
 void task1();
 bool task2();
+void task3();
 
 int main()
 {
     task1();
     task2();
+    task3();
 }
 
 void swap(int& a, int& b) 
@@ -54,3 +56,29 @@ bool task2()
 
     return result;
 } 
+
+bool find(const int* arr, int size, int elem)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] == elem)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void task3()
+{
+    const int LENGTH_ARR = 3;
+
+    int arr[LENGTH_ARR] = { 10, 20, 30 };
+    int elem = 20;
+
+    bool result = find(arr, LENGTH_ARR, elem);
+}
+
+
+
