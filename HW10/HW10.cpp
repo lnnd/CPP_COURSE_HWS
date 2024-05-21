@@ -53,4 +53,4 @@ bool task2()
     bool result = calculateSum(arr, LENGTH_ARR, sum);
 
     return result;
-}
+} 
