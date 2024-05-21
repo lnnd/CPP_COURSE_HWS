@@ -4,12 +4,14 @@
 void task1();
 bool task2();
 void task3();
+void task4();
 
 int main()
 {
     task1();
     task2();
     task3();
+    task4();
 }
 
 void swap(int& a, int& b) 
@@ -79,6 +81,58 @@ void task3()
 
     bool result = find(arr, LENGTH_ARR, elem);
 }
+
+int lastValueOfArray(double* arr, int size, double& lastNum)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if ( *(arr + i) == lastNum)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+void task4()
+{
+    //Find where the element of the array is located and return the index
+    //If the element is not found, we return -1
+    
+    const int LENGTH_ARR = 4;
+    double arr[LENGTH_ARR] = { 10, 20, 30, 60 };
+    double num = 30;
+
+    int result = lastValueOfArray(arr, LENGTH_ARR, num);
+    std::cout << result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
