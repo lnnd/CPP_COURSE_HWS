@@ -1,15 +1,12 @@
 #include <iostream>
 
-int factorial_Recursion(int result, int count)
+int factorial_Recursion(int result)
 {
-	if (count == 1)
-	{
-		return result;
-	}
+    if (result == 1) {
+        return 1;
+    }
 
-	result = result * --count;
-
-	factorial_Recursion(result, count);
+    return result * factorial_Recursion(result - 1);
 }
 
 void printNaturalNumbers_To_Smallest_Recursion(int count)
@@ -23,12 +20,12 @@ void printNaturalNumbers_To_Smallest_Recursion(int count)
 	printNaturalNumbers_To_Smallest_Recursion(--count);
 }
 
-void printNaturalNumbers_To_Largest_Recursion(int count, int current = 1)
+void printNaturalNumbers_To_Largest_Recursion(int count)
 {
 	if (count <= 0) {
 		return;
 	}
 
-	std::cout << current << std::endl;
-	printNaturalNumbers_To_Largest_Recursion(count - 1, current + 1);
+	printNaturalNumbers_To_Largest_Recursion(count - 1);
+	std::cout << count << std::endl;
 }

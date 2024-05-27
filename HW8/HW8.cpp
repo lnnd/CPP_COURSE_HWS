@@ -2,9 +2,9 @@
 #include <iostream>
 #include <cmath>
 
-#include "HW8.h";
-#include "Recursion.h";
-#include "Cycle.h";
+#include "HW8.h"
+#include "Recursion.h"
+#include "Cycle.h"
 
 const float PI = 3.14159;
 
@@ -13,7 +13,7 @@ int main()
 	int result;
 
 	// Task1
-	EnteringNumbers(5);
+	//EnteringNumbers(5);
 
 	// Task2
 	result = factorial(5);

@@ -4,7 +4,7 @@
 int factorial_Cycle(int count)
 {
 	int result = count;
-	for (int i = count - 1; i > 0; i--)
+	for (int i = count - 1; i > 1; i--)
 	{
 		result *= i;
 	}
