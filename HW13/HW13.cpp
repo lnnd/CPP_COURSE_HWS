@@ -183,7 +183,6 @@ void startGame()
     std::string userWordle;
     std::string result = "*****";
     
-    // Already found! Come back tommorow
     bool wasGame = todayWasGame();
 
     while (userSelect != 0)
