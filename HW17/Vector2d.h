@@ -12,8 +12,12 @@ public:
 	Vector2d();
 	Vector2d(float x, float y);
 	
+	Vector2d(const Vector2d& other);
+        
 	~Vector2d() { count--; }
 
+	Vector2d& operator=(const Vector2d& other);
+	
 	Vector2d operator+(const Vector2d& secondVector);
 	Vector2d operator-(const Vector2d& secondVector);
 
@@ -30,6 +34,8 @@ public:
 	friend std::istream& operator>>(std::istream& is, Vector2d& vector);
 
 	static int getCount() { return count; }
+
+	void printVector();
 
 private:
 

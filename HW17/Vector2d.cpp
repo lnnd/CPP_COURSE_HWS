@@ -19,6 +19,26 @@ Vector2d::Vector2d(float x, float y)
 	count++;
 }
 
+Vector2d::Vector2d(const Vector2d& other)
+{
+	this->x = other.x;
+	this->y = other.y;
+
+	count++;
+}
+
+Vector2d& Vector2d::operator=(const Vector2d& other)
+{
+	if (this != &other) {
+		this->x = other.x;
+		this->y = other.y;
+	}
+
+	count++;
+
+	return *this;
+}
+
 Vector2d Vector2d::operator+(const Vector2d& secondVector)
 {
 	Vector2d vector = Vector2d(this->x + secondVector.x, this->y + secondVector.y);
@@ -68,6 +88,11 @@ const float& Vector2d::operator[](std::size_t idx) const
 	{
 		return y;
 	}
+}
+
+void Vector2d::printVector()
+{
+	std::cout << "{" << x << "; " << y << "}" << std::endl;
 }
 
 std::ostream& operator<<(std::ostream& os, const Vector2d& vector)
