@@ -24,7 +24,9 @@ void task1()
 
 	std::cout << "Vector4: " << vector4 << std::endl;
 
-	std::cin >> vector4;
+	//std::cin >> vector4;
+
+	std::cout << "Count: " << Vector2d::getCount() << std::endl;
 
 	int a = 0;
 

@@ -1,16 +1,22 @@
 #include "Vector2d.h"
 #include <cmath>
 
+int Vector2d::count = 0;
+
 Vector2d::Vector2d()
 {
 	x = 0;
 	y = 0;
+
+	count++;
 }
 
 Vector2d::Vector2d(float x, float y)
 {
 	this->x = x;
 	this->y = y;
+
+	count++;
 }
 
 Vector2d Vector2d::operator+(const Vector2d& secondVector)

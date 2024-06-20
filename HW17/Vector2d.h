@@ -7,12 +7,13 @@ class Vector2d
 {
 public:
 
-	float x;
-	float y;
+	static int count;
 
 	Vector2d();
 	Vector2d(float x, float y);
 	
+	~Vector2d() { count--; }
+
 	Vector2d operator+(const Vector2d& secondVector);
 	Vector2d operator-(const Vector2d& secondVector);
 
@@ -28,6 +29,10 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const Vector2d& vector);
 	friend std::istream& operator>>(std::istream& is, Vector2d& vector);
 
+	static int getCount() { return count; }
+
 private:
-	
+
+	float x;
+	float y;
 };
