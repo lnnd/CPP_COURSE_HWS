@@ -108,6 +108,8 @@ Student* GetTopStudent(Student students[], int size)
 {
     if (size == 0) return nullptr;
 
+    std::sort(students, students + size, CompareStudents);
+
     // The most successful student will be first in the sorted array
     return &students[0];
 }
@@ -127,6 +129,8 @@ int CountStudentsWithAverageAbove(Student students[], int size, double N)
 
 Student* GetTopPercentStudents(Student students[], int size, double percent, int& topSize)
 {
+    std::sort(students, students + size, CompareStudents);
+
     topSize = static_cast<int>(size * (percent / 100.0));
     Student* topStudents = new Student[topSize];
     for (int i = 0; i < topSize; ++i)
@@ -138,6 +142,8 @@ Student* GetTopPercentStudents(Student students[], int size, double percent, int
 
 void getBestStudents(Student* inStudents, unsigned inSize, Student* outStudents, unsigned& outSize, unsigned percent)
 {
+    std::sort(inStudents, inStudents + inSize, CompareStudents);
+
     outSize = static_cast<unsigned>(inSize * percent / 100.0);
     for (unsigned i = 0; i < outSize; ++i)
     {
