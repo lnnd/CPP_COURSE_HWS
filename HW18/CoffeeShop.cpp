@@ -57,7 +57,7 @@ public:
 			if (result == -1)
 				return;
 
-			if (result >= 0 && result <= 3)
+			if (result >= 0 && result <= 5)
 				break;
 		}
 
