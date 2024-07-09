@@ -32,6 +32,7 @@ void Fight::applyModifier(int choice)
 void Fight::runawayFlow()
 {
 	Runaway* policy = m_monster->getRunawayPolicy();
+	
 	policy->apply(m_munchkin);
 
 	m_result = FightResult::MonsterWon;

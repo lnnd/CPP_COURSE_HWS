@@ -54,7 +54,14 @@ void pressAnyKeyToContinue()
 void printMunchkinLost(Monster* monster)
 {
 	std::cout << "-------YOU'VE LOST to \"" << monster->getName() << "\"Monster!---------\n";
+	
 	//#TODO: Print runaway policy monster dealt to Munchkin
+	std::string RunawayPolicy = monster->getRunawayPolicy()->getFullInfo();
+	std::cout << "Monster" << monster->getName() << RunawayPolicy << std::endl;
+	
+	//Monster “Shiva”, level 20. You are dead! (level is dropped to 1, will lose 3 cards from the hand)
+
+
 }
 
 std::string getTribeString(Tribe tribe)
