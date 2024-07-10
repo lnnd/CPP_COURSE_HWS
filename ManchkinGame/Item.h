@@ -66,4 +66,53 @@ public:
 	}
 };
 
+class HolySword : public Weapon
+{
+public:
+	HolySword(const std::string& name, int power) : Weapon(name, power) {}
+
+	virtual int getPower(Tribe monsterTribeModifier) const override
+	{
+		switch (monsterTribeModifier)
+		{
+		case Tribe::Undead:
+		case Tribe::Human:
+		case Tribe::Zombie:
+			return m_power * 10;
+		default:
+			return m_power;
+		}
+	}
+
+	virtual std::string getFullInfo() const override
+	{
+		return "\"" + getName() + "\"" + ", power:" + std::to_string(getBasePower()) + ", destroys the Zombie!\n";
+	}
+};
+
+class MagicShield : public Weapon
+{
+public:
+	MagicShield(const std::string& name, int power) : Weapon(name, power) {}
+
+	virtual int getPower(Tribe monsterTribeModifier) const override
+	{
+		switch (monsterTribeModifier)
+		{
+		case Tribe::God:
+		case Tribe::Human:
+			return m_power * 2;
+		case Tribe::Zombie:
+		case Tribe::Undead:
+		default:
+			return m_power;
+		}
+	}
+
+	virtual std::string getFullInfo() const override
+	{
+		return "\"" + getName() + "\"" + ", power:" + std::to_string(getBasePower()) + ", skills: x2 vs Human!\n";
+	}
+};
+
 //TODO: Add new Item type with unique properties

@@ -17,6 +17,10 @@ MonsterDeck::MonsterDeck()
 MonsterDeck::~MonsterDeck()
 {
 	//TODO: Clear memory
+	for (Monster* monster : m_monstersDatabase)
+	{
+		delete monster;
+	}
 }
 
 Monster* MonsterDeck::generateMonster() const

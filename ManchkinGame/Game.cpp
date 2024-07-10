@@ -59,7 +59,6 @@ void printMunchkinLost(Monster* monster)
 	std::string RunawayPolicy = monster->getRunawayPolicy()->getFullInfo();
 	std::cout << "Monster" << monster->getName() << RunawayPolicy << std::endl;
 	
-	//Monster “Shiva”, level 20. You are dead! (level is dropped to 1, will lose 3 cards from the hand)
 
 
 }
