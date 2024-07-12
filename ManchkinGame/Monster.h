@@ -2,10 +2,11 @@
 #include <string>
 #include "Tribe.h"
 #include "Runaway.h"
+#include "DeckBase.h"
 
 class Runaway;
 
-class Monster
+class Monster : public DeckBase
 {
 public:
 	Monster(const std::string& name, int level = 1, Tribe tribe = Tribe::Human, Runaway* policy = nullptr)

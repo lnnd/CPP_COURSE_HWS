@@ -1,9 +1,10 @@
 #pragma once
 #include <vector>
+#include "DeckBase.h"
 
 class Monster;
 
-class MonsterDeck
+class MonsterDeck 
 {
 public:
 	MonsterDeck();
@@ -12,5 +13,5 @@ public:
 	Monster* generateMonster() const;
 
 private:
-	std::vector<Monster*> m_monstersDatabase;
+	std::vector<DeckBase*> m_monstersDatabase;
 };

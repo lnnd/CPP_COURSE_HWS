@@ -17,7 +17,7 @@ MonsterDeck::MonsterDeck()
 MonsterDeck::~MonsterDeck()
 {
 	//TODO: Clear memory
-	for (Monster* monster : m_monstersDatabase)
+	for (DeckBase* monster : m_monstersDatabase)
 	{
 		delete monster;
 	}
@@ -30,6 +30,8 @@ Monster* MonsterDeck::generateMonster() const
 	//or unless ALL cards were generated from database to the game - in this case 
 	//make ALL cards available again
 
-	const int choice = std::rand() % m_monstersDatabase.size();
-	return m_monstersDatabase[choice];
+	DeckBase* baseObject = DeckBase::generate(m_monstersDatabase);
+
+	Monster* monster = static_cast<Monster*>(baseObject);
+	return monster;
 }
