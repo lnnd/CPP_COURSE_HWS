@@ -25,6 +25,7 @@ ModifierDeck::ModifierDeck()
 ModifierDeck::~ModifierDeck()
 {
 	//TODO: Clear memory
+
 }
 
 Modifier* ModifierDeck::generateModifier() const
@@ -34,6 +35,17 @@ Modifier* ModifierDeck::generateModifier() const
 	//or unless ALL cards were generated from database to the game - in this case 
 	//make ALL cards available again
 
-	unsigned int idx = std::rand() % m_modifiersDatabase.size();
-	return m_modifiersDatabase[idx];
+	Modifier* ìodifier = static_cast<Modifier*>(DeckBase::generate(m_modifiersDatabase));
+
+	return ìodifier;
+}
+
+std::vector<Modifier*> ModifierDeck::generateModifiers() const
+{
+	std::vector<Modifier*> modifiers_copy;
+	for (int i = 0; i < m_modifiersDatabase.size(); i++)
+	{
+		modifiers_copy.push_back(static_cast<Modifier*>(m_modifiersDatabase[i]));
+	}
+	return modifiers_copy;
 }

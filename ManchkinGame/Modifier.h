@@ -2,8 +2,9 @@
 #include <string>
 #include "Monster.h"
 #include "Munchkin.h"
+#include "DeckBase.h"
 
-class Modifier
+class Modifier : public DeckBase
 {
 public:
 	virtual void apply(Munchkin* munchkin, Monster* monster) = 0;
