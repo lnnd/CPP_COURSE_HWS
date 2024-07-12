@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "DeckBase.h"
 
 class Item;
 
@@ -12,5 +13,5 @@ public:
 	std::vector<Item*> generateItems() const;
 
 private:
-	std::vector<Item*> m_itemsDataBase;
+	std::vector<DeckBase*> m_itemsDataBase;
 };

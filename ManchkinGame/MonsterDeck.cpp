@@ -30,8 +30,6 @@ Monster* MonsterDeck::generateMonster() const
 	//or unless ALL cards were generated from database to the game - in this case 
 	//make ALL cards available again
 
-	DeckBase* baseObject = DeckBase::generate(m_monstersDatabase);
-
-	Monster* monster = static_cast<Monster*>(baseObject);
+	Monster* monster = static_cast<Monster*>(DeckBase::generate(m_monstersDatabase));
 	return monster;
 }

@@ -1,8 +1,9 @@
 #pragma once
 #include "Tribe.h"
 #include <string>
+#include "DeckBase.h"
 
-class Item
+class Item : public DeckBase
 {
 public:
 	virtual int getPower(Tribe monsterTribeModifier) const { return 0; }

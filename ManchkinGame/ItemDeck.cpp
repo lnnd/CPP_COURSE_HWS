@@ -21,7 +21,7 @@ ItemDeck::ItemDeck()
 ItemDeck::~ItemDeck()
 {
 	//TODO: FREE MEMORY
-	for (Item* item : m_itemsDataBase)
+	for (DeckBase* item : m_itemsDataBase)
 	{
 		delete item;
 	}
@@ -33,13 +33,13 @@ std::vector<Item*> ItemDeck::generateItems() const
 	for (int i = 0; i <= 2;)
 	{
 
-		const int choice = std::rand() % m_itemsDataBase.size();
-		if (std::find(items.begin(), items.end(), m_itemsDataBase[choice]) == items.end())
+		Item* itim = static_cast<Item*>(DeckBase::generate(m_itemsDataBase));
+
+		if (std::find(items.begin(), items.end(), itim) == items.end())
 		{
 			i++;
-			items.push_back(m_itemsDataBase[choice]);
+			items.push_back(static_cast<Item *>(itim));
 		}
-		
 	}
 	
 	//TODO: PICK AT RANDOM SEVERAL ITEMS FROM DATABASE AS A PLAYER HAND
