@@ -3,6 +3,7 @@
 
 //#TODO: Make it template class
 //int type should be replace with smth more general
+template <typename T>
 class DynamicArray
 {
 public:
@@ -12,10 +13,10 @@ public:
 
     ~DynamicArray();
 
-    DynamicArray& operator=(const DynamicArray& other); //assignment operator, #TODO, change signature if needed
+    T& operator=(const T& other); //assignment operator, #TODO, change signature if needed
 
     //validate index always or only in _DEBUG configuration
-    int& operator[](std::size_t index);
+    T& operator[](std::size_t index);
 
     void setSize(std::size_t newSize);
     std::size_t getSize() const;
@@ -31,7 +32,7 @@ public:
 
     //#TODO: HW new methods
     void pop_back();    //remove last element
-    int back() const;   //get last element
+    T back() const;   //get last element
 
     //https://cplusplus.com/reference/vector/vector/reserve/
     //used to allocate more memory then needed right now
@@ -46,5 +47,13 @@ public:
 
     bool operator==(const DynamicArray& other) const;    //#TODO, change signature if needed
 private:
-
+    std::size_t size = 0;
+    T* array;
+    std::size_t capacity = 0;
 };
+
+template<typename T>
+DynamicArray<T>::~DynamicArray()
+{
+    delete[] array;
+}
