@@ -52,8 +52,4 @@ private:
     std::size_t capacity = 0;
 };
 
-template<typename T>
-DynamicArray<T>::~DynamicArray()
-{
-    delete[] array;
-}
+

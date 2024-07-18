@@ -29,6 +29,12 @@ DynamicArray<T>::DynamicArray(const DynamicArray& other)
 }
 
 template<typename T>
+DynamicArray<T>::~DynamicArray()
+{
+	delete[] array;
+}
+
+template<typename T>
 T& DynamicArray<T>::operator=(const T& other)
 {
 	if (this == &other) {
