@@ -161,6 +161,29 @@ std::size_t DynamicArray<T>::getCapacity() const
 }
 
 template<typename T>
+void DynamicArray<T>::shrinkToFit()
+{
+	if (size == 0)
+	{
+		delete[] array;
+		array = nullptr;
+		capacity = 0;
+	}
+	else
+	{
+		T* newArray = new T[size];
+		for (size_t i = 0; i < size; i++)
+		{
+			newArray[i] = array[i];
+		}
+
+		delete[] array;
+		array = newArray;
+		capacity = size;
+	}
+}
+
+template<typename T>
 bool DynamicArray<T>::operator==(const DynamicArray& other) const
 {
 	if (size != other.size)
