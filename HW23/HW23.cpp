@@ -9,15 +9,18 @@
 void Task1();
 void Task2();
 void Task3();
+void Task4();
 
 int main()
 {
-    //Task1();
+    Task1();
 	
-	//Task2();
+	Task2();
 	
 	Task3();
 	
+	Task4();
+
 	return 0;
 }
 
@@ -120,4 +123,63 @@ void Task3()
 
 	result = isBalanced("[{]}"); // false
 	std::cout << "Is balanced - " << result << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////
+///////////////// task 1 
+
+struct Node {
+	int data;
+	Node* next;
+	Node(int val) : data(val), next(nullptr) {}
+};
+
+bool has_cycle(Node* head) {
+	std::unordered_set<Node*> visitedNodes; 
+	Node* current = head;
+
+	while (current != nullptr) {
+		
+		if (visitedNodes.find(current) != visitedNodes.end()) {
+			return true;
+		}
+
+		visitedNodes.insert(current);
+
+		current = current->next;
+	}
+
+	return false;
+}
+
+void printResult(Node* head) 
+{
+	if (has_cycle(head)) 
+	{
+		std::cout << "The list contains a cycle." << std::endl;
+	}
+	else 
+	{
+		std::cout << "The list does not contain a cycle." << std::endl;
+	}
+}
+
+void Task4()
+{
+	Node* head = new Node(1);
+	head->next = new Node(2);
+	head->next->next = new Node(3);
+	head->next->next->next = new Node(4);
+	head->next->next->next->next = new Node(5);
+
+	printResult(head);
+
+	Node* head2 = new Node(1);
+	head2->next = new Node(2);
+	head2->next->next = new Node(3);
+	head2->next->next->next = new Node(4);
+	head2->next->next->next->next = head2;
+
+	printResult(head2);
+
 }
