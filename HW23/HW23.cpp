@@ -4,16 +4,19 @@
 #include <unordered_map>
 #include <string>
 #include <sstream>
+#include <stack>
 
 void Task1();
 void Task2();
+void Task3();
 
 int main()
 {
     //Task1();
-	Task2();
 	
+	//Task2();
 	
+	Task3();
 	
 	return 0;
 }
@@ -77,4 +80,44 @@ void Task2()
 {
 	std::string result = mostOccuredWord("Hello Hey Hello Bye Hey Hey");
 	std::cout << "Most occured word - " << result << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////
+///////////////// task 3
+
+bool isBalanced(const std::string& str) 
+{
+	std::stack<char> stack;
+
+	for (char ch : str) {
+		// Якщо символ є відкриваючою дужкою, додаємо його в стек
+		if (ch == '(' || ch == '{' || ch == '[') {
+			stack.push(ch);
+		}
+		// Якщо символ є закриваючою дужкою
+		else if (ch == ')' || ch == '}' || ch == ']') {
+			// Якщо стек порожній або вершина стека не є відповідною відкриваючою дужкою, дужки не збалансовані
+			if (stack.empty() || (ch == ')' && stack.top() != '(') ||
+				(ch == '}' && stack.top() != '{') ||
+				(ch == ']' && stack.top() != '[')) {
+				return false;
+			}
+			// В іншому випадку, видаляємо відповідну відкриваючу дужку зі стека
+			stack.pop();
+		}
+	}
+
+	// Якщо стек порожній, всі дужки збалансовані
+	return stack.empty();
+}
+
+void Task3()
+{
+	bool result;
+
+	result = isBalanced("{ [()] [] }()"); // true
+	std::cout << "Is balanced - " << result << std::endl;
+
+	result = isBalanced("[{]}"); // false
+	std::cout << "Is balanced - " << result << std::endl;
 }
