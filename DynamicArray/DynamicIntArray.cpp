@@ -1,4 +1,5 @@
 #include "DynamicIntArray.h"
+#include <xpolymorphic_allocator.h>
 
 //Implementations go here
 
@@ -55,9 +56,16 @@ int& DynamicIntArray::operator[](std::size_t index)
 
 void DynamicIntArray::setSize(std::size_t newSize)
 {
+	std::size_t minSize = std::min(size, newSize);
+	int* newArray = new int[newSize];
+	for (std::size_t i = 0; i < minSize; i++)
+	{
+		newArray[i] = array[i];
+	}
+
 	delete[] array;
 	size = newSize;
-	array = new int[size];
+	array = newArray;
 }
 
 std::size_t DynamicIntArray::getSize() const
@@ -106,10 +114,10 @@ void DynamicIntArray::push_back(int element)
 	{
 		newArray[i] = array[i];
 	}
-	newArray[size] = element; // Добавляем новый элемент в конец
+	newArray[size] = element; 
 
-	delete[] array; // Освобождаем старую память
-	array = newArray; // Переназначаем указатель
+	delete[] array; 
+	array = newArray; 
 
-	size++; // Увеличиваем размер после добавления элемента
+	size++; 
 }
