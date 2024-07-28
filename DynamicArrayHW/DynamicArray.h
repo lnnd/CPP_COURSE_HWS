@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdlib>
+#include <xpolymorphic_allocator.h>
 
 //#TODO: Make it template class
 //int type should be replace with smth more general
@@ -51,5 +52,81 @@ private:
     T* array;
     std::size_t capacity = 0;
 };
+
+template<typename T>
+DynamicArray<T>::DynamicArray()
+{
+    size = 0;
+    capacity = 0;
+    array = new T[size];
+}
+
+template<typename T>
+inline DynamicArray<T>::DynamicArray(std::size_t size)
+{
+    this->size = size;
+    capacity = size;
+    array = new T[size];
+}
+
+template<typename T>
+DynamicArray<T>::DynamicArray(const DynamicArray& other)
+{
+    size = other.size;
+    capacity = other.capacity;
+    array = new T[size];
+    for (std::size_t i = 0; i < size; i++)
+    {
+        array[i] = other.array[i];
+    }
+}
+
+template<typename T>
+DynamicArray<T>::~DynamicArray()
+{
+	delete[] array;
+}
+
+template<typename T>
+void DynamicArray<T>::push_back(int element)
+{
+	int* newArray = new T[size + 1];
+	for (size_t i = 0; i < size; i++)
+	{
+		newArray[i] = array[i];
+	}
+	newArray[size] = element;
+
+	delete[] array;
+	array = newArray;
+
+	size++;
+	if (capacity < size)
+	{
+		capacity = size;
+	}
+}
+
+template<typename T>
+void DynamicArray<T>::reserve(std::size_t reservedSpace)
+{
+	if (reservedSpace <= capacity)
+	{
+		return;
+	}
+
+	T* newArray = new T[reservedSpace];
+	for (size_t i = 0; i < size; i++)
+	{
+		newArray[i] = array[i];
+	}
+
+	delete[] array;
+	array = newArray;
+	capacity = reservedSpace;
+}
+
+
+
 
 

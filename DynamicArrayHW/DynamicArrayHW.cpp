@@ -16,6 +16,4 @@ int main()
     //OOPS, 5th element was added
     //allocate more memory on heap
     m_container.push_back(55);
-
-    int a = 1;
 }
