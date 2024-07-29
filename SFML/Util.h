@@ -8,13 +8,8 @@
 class Util
 {
 public:
-	
 	bool static checkCollision(sf::Sprite& object1, sf::Sprite& object2);
+	bool static checkCollision(sf::FloatRect object1, sf::FloatRect object2);
 	void static handleCollision(sf::Sprite& object1, sf::Sprite& object2);
-	void static handleScale(sf::Sprite& gameObject);
-	void static handleRotation(sf::Sprite& gameObject);
-	void static handleMovement(sf::Sprite& gameObject);
-
-
 };
 
