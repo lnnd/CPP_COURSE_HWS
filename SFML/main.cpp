@@ -3,97 +3,66 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <filesystem>
-
 #include <iostream>
+#include "Util.h"
 
-bool checkCollision(sf::Sprite& object1, sf::Sprite& object2)
+class Boundaries
 {
-	if (object1.getGlobalBounds().intersects(object2.getGlobalBounds()))
-	{
-		return true;
-	}
-	return false;
-}
+public:
+    float leftBoundary;
+    float rightBoundary;
+    float topBoundary;
+    float bottomBoundary;
+    float thickness = 10.0f; 
 
-void handleCollision(sf::Sprite& object1, sf::Sprite& object2)
+    sf::RectangleShape topRect;
+    sf::RectangleShape bottomRect;
+    sf::RectangleShape leftRect;
+    sf::RectangleShape rightRect;
+
+    Boundaries(sf::RenderWindow& window, float left, float right, float top, float bottom)
+    {
+        this->leftBoundary = left;
+        this->rightBoundary = window.getSize().x - right;
+        this->topBoundary = top;
+        this->bottomBoundary = window.getSize().y - bottom;
+        this->thickness = thickness;
+    }
+
+    void draw(sf::RenderWindow& window) 
+    {
+        topRect.setSize(sf::Vector2f(rightBoundary - leftBoundary, thickness));
+        topRect.setPosition(leftBoundary, topBoundary);
+        topRect.setFillColor(sf::Color::Red);
+        
+        bottomRect.setSize(sf::Vector2f(rightBoundary - leftBoundary, thickness));
+        bottomRect.setPosition(leftBoundary, bottomBoundary - thickness);
+        bottomRect.setFillColor(sf::Color::Red);
+
+        leftRect.setSize(sf::Vector2f(thickness, bottomBoundary - topBoundary));
+        leftRect.setPosition(leftBoundary, topBoundary);
+        leftRect.setFillColor(sf::Color::Red);
+
+        rightRect.setSize(sf::Vector2f(thickness, bottomBoundary - topBoundary));
+        rightRect.setPosition(rightBoundary - thickness, topBoundary);
+        rightRect.setFillColor(sf::Color::Red);
+
+        window.draw(topRect);
+        window.draw(bottomRect);
+        window.draw(leftRect);
+        window.draw(rightRect);
+    }
+};
+
+int main()
 {
-	if (checkCollision(object1, object2))
-	{
-        object1.setColor(sf::Color::Red);
-        object2.setColor(sf::Color::Red);
-	}
-    else
-    {
-        object1.setColor(sf::Color::White);
-        object2.setColor(sf::Color::White);
-    }
-}
+    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "SFML");
 
-void handleScale(sf::Sprite& gameObject)
-{
-    const float scaleSpeed = 0.02f;
-    float Scale = 0.0f;
+    Boundaries boundaries(window, 40.0f, 40.0f, 40.0f, 40.0f); // Добавлен параметр толщины рамки
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-    {
-        Scale = scaleSpeed;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
-    {
-        Scale = -scaleSpeed;
-    }
-
-    gameObject.setScale(gameObject.getScale().x + Scale, gameObject.getScale().y + Scale);
-}
-
-void handleRotation(sf::Sprite& gameObject)
-{
-    const float rotationSpeed = 3.0f;
-    float DeltaRotation = 0.0f;
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
-    {
-        DeltaRotation = -rotationSpeed;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-    {
-        DeltaRotation = rotationSpeed;
-    }
-
-    gameObject.setRotation(gameObject.getRotation() + DeltaRotation);
-
-}
-
-void handleMovement(sf::Sprite& gameObject)
-{
-    float DeltaX = 0.0f;
-    float DeltaY = 0.0f;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-    {
-        DeltaY = -10.0f;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-    {
-        DeltaY = 10.0f;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-    {
-        DeltaX = 10.0f;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-    {
-        DeltaX = -10.0f;
-    }
-    const sf::Vector2f oldPosition = gameObject.getPosition();
-    gameObject.setPosition(oldPosition.x + DeltaX, oldPosition.y + DeltaY);
-}
-
-int main() {
-	
-	sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "SFML works!");
-	
     sf::Texture playerTexture;
-    if (!playerTexture.loadFromFile("character_male.png")) {
+    if (!playerTexture.loadFromFile("character_male.png"))
+    {
         std::cerr << "Error loading texture\n";
         return -1;
     }
@@ -101,13 +70,14 @@ int main() {
     sf::Sprite player;
     player.setTexture(playerTexture);
 
-    sf::Vector2f centerPoint = {window.getSize().x / 2.0f, window.getSize().y / 2.0f};
-    
-    player.setPosition(centerPoint);
+    sf::Vector2f centerPoint = { window.getSize().x / 2.0f, window.getSize().y / 2.0f };
+
+    player.setPosition(centerPoint.x, centerPoint.y / 2.0f);
     player.setOrigin(player.getGlobalBounds().width / 2.0f, player.getGlobalBounds().height / 2.0f);
 
     sf::Texture boxTexture;
-    if (!boxTexture.loadFromFile("bear.png")) {
+    if (!boxTexture.loadFromFile("bear.png"))
+    {
         std::cerr << "Error loading texture\n";
         return -1;
     }
@@ -122,8 +92,10 @@ int main() {
 
     sf::Text myText;
     myText.setFont(DefaultGameFont);
-    myText.setString("Hello World");
-    myText.setCharacterSize(48);
+    myText.setString("SFML");
+    myText.setOrigin(myText.getGlobalBounds().width / 2.0f, myText.getGlobalBounds().height / 2.0f);
+    myText.setPosition(window.getSize().x / 2.0f, 3.0f);
+    myText.setCharacterSize(40);
     myText.setFillColor(sf::Color::Blue);
 
     window.setFramerateLimit(60);
@@ -135,25 +107,25 @@ int main() {
         {
             switch (event.type)
             {
-                case sf::Event::Closed:
-					window.close();
-					break;
+            case sf::Event::Closed:
+                window.close();
+                break;
             }
         }
 
-        handleMovement(player);
-        handleRotation(player);
-        handleScale(player);
-        handleCollision(player, box);
+        Util::handleMovement(player);
+        Util::handleRotation(player);
+        Util::handleScale(player);
+        Util::handleCollision(player, box);
 
         window.clear(sf::Color(0, 255, 0));
 
         window.draw(player);
         window.draw(box);
-		window.draw(myText);
+        window.draw(myText);
+        boundaries.draw(window);
 
         window.display();
     }
-
-	return 0;
+    return 0;
 }
