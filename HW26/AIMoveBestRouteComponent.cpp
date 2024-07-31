@@ -4,97 +4,139 @@
 #include "FontManager.h"
 
 AIMoveBestRouteComponent::AIMoveBestRouteComponent(GameObject* referenceObject, GameObject* targetObject)
-    : AIMoveToComponent(referenceObject, targetObject), m_mapGraph(buildGraph())
+	: AIMoveToComponent(referenceObject, targetObject), m_mapGraph(buildGraph())
 {
 #ifdef DEBUG_VERTEX
-    m_text.setFont(FontManager::getInstance().getDefaultFont());
+	m_text.setFont(FontManager::getInstance().getDefaultFont());
 
-    m_text.setCharacterSize(48); // in pixels, not points!
-    m_text.setFillColor(sf::Color::Blue);
-    m_text.setOrigin(m_text.getGlobalBounds().getSize().x / 2, m_text.getGlobalBounds().getSize().y / 2);
+	m_text.setCharacterSize(48); // in pixels, not points!
+	m_text.setFillColor(sf::Color::Blue);
+	m_text.setOrigin(m_text.getGlobalBounds().getSize().x / 2, m_text.getGlobalBounds().getSize().y / 2);
 #endif
 }
 
 void AIMoveBestRouteComponent::update(float dt)
 {
-    updatePath(m_mapGraph);
-    const sf::Vector2u nextTileToMove = getNextTileToMove();
-    const sf::Vector2f targetPosition = Map::GetInstance().getPositionFromTile(nextTileToMove);
+	updatePath(m_mapGraph);
+	const sf::Vector2u nextTileToMove = getNextTileToMove();
+	const sf::Vector2f targetPosition = Map::GetInstance().getPositionFromTile(nextTileToMove);
 
-    moveTo(dt, targetPosition);
+	moveTo(dt, targetPosition);
 }
 
 void AIMoveBestRouteComponent::draw(sf::RenderWindow* window)
 {
 #ifdef DEBUG_VERTEX
-    const Map::TilesMapType& mapTiles = Map::GetInstance().getAllTiles();
+	const Map::TilesMapType& mapTiles = Map::GetInstance().getAllTiles();
 
-    for (unsigned y = 0; y < mapTiles.size(); y++)
-    {
-        for (unsigned x = 0; x < mapTiles[y].size(); x++)
-        {
-            const int vertixNumber = convertMapTileToVertix({ x, y });
-            const sf::Vector2f position = Map::GetInstance().getPositionFromTile({ x, y });
+	for (unsigned y = 0; y < mapTiles.size(); y++)
+	{
+		for (unsigned x = 0; x < mapTiles[y].size(); x++)
+		{
+			const int vertixNumber = convertMapTileToVertix({ x, y });
+			const sf::Vector2f position = Map::GetInstance().getPositionFromTile({ x, y });
 
-            m_text.setPosition(position);
-            m_text.setString(std::to_string(vertixNumber));
+			m_text.setPosition(position);
+			m_text.setString(std::to_string(vertixNumber));
 
-            window->draw(m_text);
-        }
-    }
+			window->draw(m_text);
+		}
+	}
 #endif 
 
 #ifdef DEBUG_PATH
-    for (auto vertex : m_path)
-    {
-        sf::RectangleShape path = sf::RectangleShape({ 30, 30 });
+	for (auto vertex : m_path)
+	{
+		sf::RectangleShape path = sf::RectangleShape({ 30, 30 });
 
-        path.setPosition(Map::GetInstance().getPositionFromTile(convertVertixToMapTile(vertex)));
-        path.setFillColor(sf::Color::Yellow);
+		path.setPosition(Map::GetInstance().getPositionFromTile(convertVertixToMapTile(vertex)));
+		path.setFillColor(sf::Color::Yellow);
 
-        window->draw(path);
-    }
+		window->draw(path);
+	}
 #endif
 }
 
 //#TODO, STUDENTS: Build graph from map Tiles
 Graph AIMoveBestRouteComponent::buildGraph()
 {
-    const Map::TilesMapType& mapTiles = Map::GetInstance().getAllTiles();
-    Graph graph(mapTiles[0].size() * mapTiles.size());
+	const Map::TilesMapType& mapTiles = Map::GetInstance().getAllTiles();
+		
+	Graph graph(mapTiles[0].size() * mapTiles.size());
+	graph.sizeX = mapTiles[0].size();
+	graph.sizeY = mapTiles.size();
 
-    //Traverse all map tiles
-    //Check if it's passable
-    //IF it's - check if its neighbours up/down/left/right are passable
-    //if so - add edges between those neighbours to the graph 
-    // using convertMapTileToVertix function
+	for (unsigned i = 0; i < mapTiles.size(); i++)
+	{
+		for (unsigned j = 0; j < mapTiles[i].size(); j++)
+		{
+			if (mapTiles[i][j]) // if tile is blocked
+				continue;
 
+			bool itFirstRow = i == 0;
+			bool itLastRow = i == mapTiles.size() - 1;
 
+			bool itFirstColumn = j == 0;
+			bool itLastColumn = j == mapTiles[i].size() - 1;
 
-    return graph;
+			int currentTile = convertMapTileToVertix({ i, j });
+
+			if(!itFirstColumn && !mapTiles[i][j - 1])
+			{
+				int leftTile = convertMapTileToVertix({ i, j - 1 });  //mapTiles[i][j - 1];
+				graph.addEdge(currentTile, leftTile);
+			}
+
+			if (!itLastColumn && !mapTiles[i][j + 1])
+			{
+				int rightTile = convertMapTileToVertix({ i, j + 1}); //mapTiles[i][j + 1];
+				graph.addEdge(currentTile, rightTile);
+			}
+
+			if (!itFirstRow && !mapTiles[i - 1][j])
+			{
+				int upTile = convertMapTileToVertix({ i - 1, j }); // mapTiles[i - 1][j];
+				graph.addEdge(currentTile, upTile);
+			}
+
+			if (!itLastRow && !mapTiles[i + 1][j])
+			{
+				int downTile = convertMapTileToVertix({ i + 1, j });  // mapTiles[i + 1][j];
+				graph.addEdge(currentTile, downTile);
+			}	
+		}
+	}
+
+	//Traverse all map tiles
+	//Check if it's passable
+	//IF it's - check if its neighbours up/down/left/right are passable
+	//if so - add edges between those neighbours to the graph 
+	// using convertMapTileToVertix function
+	
+	return graph;
 }
 
 void AIMoveBestRouteComponent::updatePath(Graph& graph)
 {
-    const sf::Vector2u referenceTile = Map::GetInstance().getTileFromPosition(m_referenceObject->getPosition());  //GetReferenceTile func
-    const sf::Vector2u targetTile = Map::GetInstance().getTileFromPosition(m_targetObject->getPosition());    //GetTargetTile func
+	const sf::Vector2u referenceTile = Map::GetInstance().getTileFromPosition(m_referenceObject->getPosition());  //GetReferenceTile func
+	const sf::Vector2u targetTile = Map::GetInstance().getTileFromPosition(m_targetObject->getPosition());    //GetTargetTile func
 
-    const int start = convertMapTileToVertix(referenceTile);
-    const int destination = convertMapTileToVertix(targetTile);
+	const int start = convertMapTileToVertix(referenceTile);
+	const int destination = convertMapTileToVertix(targetTile);
 
-    std::vector<unsigned> path = graph.bfs(start, destination);
+	std::vector<unsigned> path = graph.bfs(start, destination);
 
-    m_path = path;
+	m_path = path;
 }
 
 sf::Vector2u AIMoveBestRouteComponent::getNextTileToMove()
 {
-    if (m_path.size() < 2)
-    {
-        return Map::GetInstance().getTileFromPosition(m_referenceObject->getPosition());
-    }
+	if (m_path.size() < 2)
+	{
+		return Map::GetInstance().getTileFromPosition(m_referenceObject->getPosition());
+	}
 
-    return convertVertixToMapTile(m_path[1]);
+	return convertVertixToMapTile(m_path[1]);
 }
 
 //#TODO, STUDENTS: Implement algorithms to convert Map tiles in format [x, y] to graph vertex in format [idx],
@@ -109,13 +151,18 @@ sf::Vector2u AIMoveBestRouteComponent::getNextTileToMove()
 
 sf::Vector2u AIMoveBestRouteComponent::convertVertixToMapTile(unsigned vertix) const
 {
-    return { 0, 0 };
+	unsigned x = vertix % m_mapGraph.sizeX;
+	unsigned y = vertix / m_mapGraph.sizeX;
+
+	return { x, y };
 }
 
 //#TODO, STUDENTS: And Vise-versa function
 unsigned AIMoveBestRouteComponent::convertMapTileToVertix(sf::Vector2u mapTile) const
 {
-    return 0;
+	unsigned vertix = mapTile.y * m_mapGraph.sizeX + mapTile.x;
+
+	return vertix;
 }
 
 
