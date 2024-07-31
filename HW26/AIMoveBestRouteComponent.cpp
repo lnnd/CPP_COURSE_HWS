@@ -61,58 +61,59 @@ void AIMoveBestRouteComponent::draw(sf::RenderWindow* window)
 Graph AIMoveBestRouteComponent::buildGraph()
 {
 	const Map::TilesMapType& mapTiles = Map::GetInstance().getAllTiles();
-		
+
 	Graph graph(mapTiles[0].size() * mapTiles.size());
-	graph.sizeX = mapTiles[0].size();
-	graph.sizeY = mapTiles.size();
-
-	for (unsigned i = 0; i < mapTiles.size(); i++)
-	{
-		for (unsigned j = 0; j < mapTiles[i].size(); j++)
-		{
-			if (mapTiles[i][j]) // if tile is blocked
-				continue;
-
-			bool itFirstRow = i == 0;
-			bool itLastRow = i == mapTiles.size() - 1;
-
-			bool itFirstColumn = j == 0;
-			bool itLastColumn = j == mapTiles[i].size() - 1;
-
-			int currentTile = convertMapTileToVertix({ i, j });
-
-			if(!itFirstColumn && !mapTiles[i][j - 1])
-			{
-				int leftTile = convertMapTileToVertix({ i, j - 1 });  //mapTiles[i][j - 1];
-				graph.addEdge(currentTile, leftTile);
-			}
-
-			if (!itLastColumn && !mapTiles[i][j + 1])
-			{
-				int rightTile = convertMapTileToVertix({ i, j + 1}); //mapTiles[i][j + 1];
-				graph.addEdge(currentTile, rightTile);
-			}
-
-			if (!itFirstRow && !mapTiles[i - 1][j])
-			{
-				int upTile = convertMapTileToVertix({ i - 1, j }); // mapTiles[i - 1][j];
-				graph.addEdge(currentTile, upTile);
-			}
-
-			if (!itLastRow && !mapTiles[i + 1][j])
-			{
-				int downTile = convertMapTileToVertix({ i + 1, j });  // mapTiles[i + 1][j];
-				graph.addEdge(currentTile, downTile);
-			}	
-		}
-	}
-
+	
 	//Traverse all map tiles
 	//Check if it's passable
 	//IF it's - check if its neighbours up/down/left/right are passable
 	//if so - add edges between those neighbours to the graph 
 	// using convertMapTileToVertix function
 	
+	graph.sizeX = static_cast<unsigned>(mapTiles[0].size());
+	graph.sizeY = static_cast<unsigned>(mapTiles.size());
+
+	for (unsigned y = 0; y < graph.sizeY; y++)
+	{
+		for (unsigned x = 0; x < graph.sizeX; x++)
+		{
+			if (mapTiles[y][x]) // if tile is blocked
+				continue;
+
+			bool itFirstRow = y == 0;
+			bool itLastRow = y == graph.sizeY - 1;
+
+			bool itFirstColumn = x == 0;
+			bool itLastColumn = x == graph.sizeX - 1;
+
+			unsigned currentTile = convertMapTileToVertix({ x, y });
+
+			if (!itFirstColumn && !mapTiles[y][x - 1])
+			{
+				unsigned leftTile = convertMapTileToVertix({ x - 1, y });  //mapTiles[i][j - 1];
+				graph.addEdge(currentTile, leftTile);
+			}
+
+			if (!itLastColumn && !mapTiles[y][x + 1])
+			{
+				unsigned rightTile = convertMapTileToVertix({ x + 1, y }); //mapTiles[i][j + 1];
+				graph.addEdge(currentTile, rightTile);
+			}
+
+			if (!itFirstRow && !mapTiles[y - 1][x])
+			{
+				unsigned upTile = convertMapTileToVertix({ x, y - 1 }); // mapTiles[i - 1][j];
+				graph.addEdge(currentTile, upTile);
+			}
+
+			if (!itLastRow && !mapTiles[y + 1][x])
+			{
+				unsigned downTile = convertMapTileToVertix({ x, y + 1 });  // mapTiles[i + 1][j];
+				graph.addEdge(currentTile, downTile);
+			}
+		}
+	}
+
 	return graph;
 }
 
@@ -161,7 +162,7 @@ sf::Vector2u AIMoveBestRouteComponent::convertVertixToMapTile(unsigned vertix) c
 unsigned AIMoveBestRouteComponent::convertMapTileToVertix(sf::Vector2u mapTile) const
 {
 	unsigned vertix = mapTile.y * m_mapGraph.sizeX + mapTile.x;
-
+	
 	return vertix;
 }
 

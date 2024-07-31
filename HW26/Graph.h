@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <list>
+#include <map>
 
 class Graph {
 public:
@@ -23,6 +24,8 @@ public:
     std::vector<unsigned> bfs(unsigned start, unsigned destination);
 
 private:
-    std::vector<std::list<int>> adjacencyList;
+
+    //std::map<unsigned, std::list<unsigned>> adjacencyList;
+    std::vector<std::list<unsigned>> adjacencyList;
 };
 
