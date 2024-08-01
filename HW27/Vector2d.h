@@ -11,7 +11,10 @@ public:
 
 	Vector2d();
 	Vector2d(float x, float y);
-	Vector2d(float x0, float y0, float x1, float y1);
+
+	////////////////////////////////////////////////
+	///////////// HW27
+	Vector2d(float x0, float y0, float x1, float y1); 
 
 	Vector2d(const Vector2d& other);
 
@@ -38,7 +41,10 @@ public:
 
 	void printVector();
 
-	
+	////////////////////////////////////////////////
+	///////////// HW27
+	float dotProduct(Vector2d& other) const;
+	Vector2d negate() const;
 
 private:
 

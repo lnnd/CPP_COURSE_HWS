@@ -103,6 +103,16 @@ void Vector2d::printVector()
 	std::cout << "{" << x << "; " << y << "}" << std::endl;
 }
 
+float Vector2d::dotProduct(Vector2d& other) const
+{
+	return x * other.x + y * other.y;
+}
+
+Vector2d Vector2d::negate() const
+{
+	return Vector2d(-x, -y);
+}
+
 std::ostream& operator<<(std::ostream& os, const Vector2d& vector)
 {
 	os << "{" << vector.x << "; " << vector.y << "}";
