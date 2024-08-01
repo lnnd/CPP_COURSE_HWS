@@ -3,6 +3,16 @@
 #include <iostream>
 #include <cmath>
 
+enum class VectorRelativeState 
+{ 
+	Identical, 
+	CoDirected, 
+	OppositeDirected, 
+	AcuteAngle, 
+	ObtuseAngle, 
+	RightAngle 
+};
+
 class Vector2d
 {
 public:
@@ -45,6 +55,7 @@ public:
 	///////////// HW27
 	float dotProduct(Vector2d& other) const;
 	Vector2d negate() const;
+	VectorRelativeState getRelativeState(const Vector2d& other) const;
 
 private:
 

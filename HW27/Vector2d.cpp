@@ -113,6 +113,43 @@ Vector2d Vector2d::negate() const
 	return Vector2d(-x, -y);
 }
 
+VectorRelativeState Vector2d::getRelativeState(const Vector2d& other) const
+{
+	float dot = this->dotProduct(const_cast<Vector2d&>(other));
+	float mag1 = std::sqrt(x * x + y * y);
+	float mag2 = std::sqrt(other.x * other.x + other.y * other.y);
+
+	if (x == other.x && y == other.y)
+	{
+		return VectorRelativeState::Identical;
+	}
+	else if (dot == mag1 * mag2)
+	{
+		return VectorRelativeState::CoDirected;
+	}
+	else if (dot == -mag1 * mag2)
+	{
+		return VectorRelativeState::OppositeDirected;
+	}
+	else
+	{
+		float angle = std::acos(dot / (mag1 * mag2)) * 180 / 3.14159265358979323846;
+		if (std::abs(angle - 90.0f) < 1e-5)
+		{
+			return VectorRelativeState::RightAngle;
+		}
+		else if (angle < 90.0f)
+		{
+			return VectorRelativeState::AcuteAngle;
+		}
+		else
+		{
+			return VectorRelativeState::ObtuseAngle;
+		}
+	}
+}
+
+
 std::ostream& operator<<(std::ostream& os, const Vector2d& vector)
 {
 	os << "{" << vector.x << "; " << vector.y << "}";
