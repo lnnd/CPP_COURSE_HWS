@@ -149,6 +149,12 @@ VectorRelativeState Vector2d::getRelativeState(const Vector2d& other) const
 	}
 }
 
+void Vector2d::scale(float factorX, float factorY)
+{
+	x *= factorX;
+	y *= factorY;
+}
+
 
 std::ostream& operator<<(std::ostream& os, const Vector2d& vector)
 {

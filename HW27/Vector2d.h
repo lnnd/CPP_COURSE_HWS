@@ -56,6 +56,7 @@ public:
 	float dotProduct(Vector2d& other) const;
 	Vector2d negate() const;
 	VectorRelativeState getRelativeState(const Vector2d& other) const;
+	void scale(float factorX, float factorY);
 
 private:
 

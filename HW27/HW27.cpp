@@ -5,6 +5,7 @@ void task1();
 void task2();
 void task3();
 void task4();
+void task5();
 
 int main()
 {
@@ -12,7 +13,7 @@ int main()
 	task2();
 	task3();
 	task4();
-
+	task5();
 
 	return 0;
 }
@@ -56,4 +57,12 @@ void task4()
 	std::cout << "v1 and v5 are " << static_cast<int>(v1.getRelativeState(v5)) << std::endl;
 	std::cout << "v1 and v6 are " << static_cast<int>(v1.getRelativeState(v6)) << std::endl;
 
+}
+
+void task5()
+{
+	Vector2d vector = Vector2d(3.0f, 4.0f);
+	vector.scale(2.0f, 3.0f);
+
+	vector.printVector();
 }
