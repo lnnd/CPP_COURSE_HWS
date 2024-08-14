@@ -60,18 +60,61 @@ void AIMoveBestRouteComponent::draw(sf::RenderWindow* window)
 //#TODO, STUDENTS: Build graph from map Tiles
 Graph AIMoveBestRouteComponent::buildGraph()
 {
-    const Map::TilesMapType& mapTiles = Map::GetInstance().getAllTiles();
-    Graph graph(mapTiles[0].size() * mapTiles.size());
+	const Map::TilesMapType& mapTiles = Map::GetInstance().getAllTiles();
 
-    //Traverse all map tiles
-    //Check if it's passable
-    //IF it's - check if its neighbours up/down/left/right are passable
-    //if so - add edges between those neighbours to the graph 
-    // using convertMapTileToVertix function
+	Graph graph(mapTiles[0].size() * mapTiles.size());
 
+	//Traverse all map tiles
+	//Check if it's passable
+	//IF it's - check if its neighbours up/down/left/right are passable
+	//if so - add edges between those neighbours to the graph 
+	// using convertMapTileToVertix function
 
+	graph.sizeX = static_cast<unsigned>(mapTiles[0].size());
+	graph.sizeY = static_cast<unsigned>(mapTiles.size());
 
-    return graph;
+	for (unsigned y = 0; y < graph.sizeY; y++)
+	{
+		for (unsigned x = 0; x < graph.sizeX; x++)
+		{
+			if (mapTiles[y][x]) // if tile is blocked
+				continue;
+
+			bool itFirstRow = y == 0;
+			bool itLastRow = y == graph.sizeY - 1;
+
+			bool itFirstColumn = x == 0;
+			bool itLastColumn = x == graph.sizeX - 1;
+
+			unsigned currentTile = convertMapTileToVertix({ x, y });
+
+			if (!itFirstColumn && !mapTiles[y][x - 1])
+			{
+				unsigned leftTile = convertMapTileToVertix({ x - 1, y });  
+				graph.addEdge(currentTile, leftTile);
+			}
+
+			if (!itLastColumn && !mapTiles[y][x + 1])
+			{
+				unsigned rightTile = convertMapTileToVertix({ x + 1, y }); 
+				graph.addEdge(currentTile, rightTile);
+			}
+
+			if (!itFirstRow && !mapTiles[y - 1][x])
+			{
+				unsigned upTile = convertMapTileToVertix({ x, y - 1 }); 
+				graph.addEdge(currentTile, upTile);
+			}
+
+			if (!itLastRow && !mapTiles[y + 1][x])
+			{
+				unsigned downTile = convertMapTileToVertix({ x, y + 1 });  
+				graph.addEdge(currentTile, downTile);
+			}
+		}
+	}
+
+	return graph;
 }
 
 void AIMoveBestRouteComponent::updatePath(Graph& graph)
@@ -109,13 +152,18 @@ sf::Vector2u AIMoveBestRouteComponent::getNextTileToMove()
 
 sf::Vector2u AIMoveBestRouteComponent::convertVertixToMapTile(unsigned vertix) const
 {
-    return { 0, 0 };
+	unsigned x = vertix % m_mapGraph.sizeX;
+	unsigned y = vertix / m_mapGraph.sizeX;
+
+	return { x, y };
 }
 
 //#TODO, STUDENTS: And Vise-versa function
 unsigned AIMoveBestRouteComponent::convertMapTileToVertix(sf::Vector2u mapTile) const
 {
-    return 0;
+	unsigned vertix = mapTile.y * m_mapGraph.sizeX + mapTile.x;
+
+	return vertix;
 }
 
 

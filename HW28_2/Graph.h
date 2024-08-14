@@ -1,11 +1,18 @@
 #pragma once
 #include <vector>
+#include <list>
+#include <map>
 
 class Graph {
 public:
+
+    unsigned sizeX = 0;
+    unsigned sizeY = 0;
+
     Graph(unsigned numVertices) 
     {
         //TODO, STUDENTS: Init internal structure (adjacency list or adjacency matrix) with numVertices size
+        adjacencyList.resize(numVertices);
     }
 
 
@@ -17,5 +24,6 @@ public:
     std::vector<unsigned> bfs(unsigned start, unsigned destination);
 
 private:
+    std::vector<std::list<unsigned>> adjacencyList;
 };
 
